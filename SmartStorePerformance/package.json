@@ -20,7 +20,6 @@
         "react-native-fs": "^2.10.14",
         "react-native-navigation": "^2.0.2354",
         "react-native-picker-select": "^3.1.2",
-        "react-native-vector-icons": "^4.6.0",
         "react-navigation": "^2.3.1",
         "whatwg-fetch": "1.1.1"
     },

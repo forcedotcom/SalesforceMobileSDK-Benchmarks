@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-present, salesforce.com, inc.
+ * Copyright (c) 2018-present, salesforce.com, inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided
@@ -69,7 +69,7 @@ class BenchmarkScreen extends React.Component {
             likeKey: '',
             orderPath: '',
             pageSize: 10,
-            queryLimit: 750,
+            recordLimit: 750,
             ascendingIndex: 0,
             useCustomQuery: false,
 
@@ -126,8 +126,8 @@ class BenchmarkScreen extends React.Component {
         let selectedPaths = JSON.parse('["attributes","AccountId__c","Age__c","CaseId__c","Comments__c","ConnectionReceivedId","ConnectionSentId","ContactId__c","Cost__c","CreatedById","CreatedDate","CurrencyIsoCode","Email__c","Id","IsDeleted","IsLocked","LastModifiedById","LastModifiedDate","LastReferencedDate","LastViewedDate","LeadId__c","MayEdit","Name","OppId__c","OwnerId","Percent__c","Phone__c","SystemModstamp","Type__c"]');
         let querySpec = storeMgr.buildQuery(this.state.buildSpec, this.state.indexPath, this.state.beginKey, this.state.endKey,
             this.state.exactKey, this.state.matchKey, this.state.likeKey, ascendingButtons[this.state.ascendingIndex],
-            this.state.orderPath, this.state.pageSize, selectedPaths, this.state.queryLimit);
-        let benchPromise = storeMgr.selectBenchmark(false, querySpec);
+            this.state.orderPath, this.state.pageSize, selectedPaths);
+        let benchPromise = storeMgr.selectBenchmark(false, querySpec, this.state.recordLimit);
 
         var resultsPromise = benchPromise.then((lastResult) => {
                 this.state.running = false;
@@ -251,13 +251,13 @@ class BenchmarkScreen extends React.Component {
                     <Text>Page Size: {this.state.pageSize}</Text>
 
                     <Slider
-                        value={this.state.queryLimit}
-                        onValueChange={(value) => this.setState({queryLimit: value})}
+                        value={this.state.recordLimit}
+                        onValueChange={(value) => this.setState({recordLimit: value})}
                         minimumValue={0}
                         maximumValue={1000}
-                        step={5}
+                        step={this.state.pageSize}
                     />
-                    <Text>Query Limit: {this.state.queryLimit}</Text>
+                    <Text>Record Limit: {this.state.recordLimit}</Text>
 
                     <ButtonGroup style={this.state.uiColor}
                         onPress={this.udpateAscendingIndex}

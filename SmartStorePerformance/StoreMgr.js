@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-present, salesforce.com, inc.
+ * Copyright (c) 2018-present, salesforce.com, inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided
@@ -56,10 +56,19 @@ const randomData = ["Quinten", "Gayle", "Sheridan", "Albina", "Marianne", "Avon"
     "If we navigate the bandwidth, we can get to the SCSI hard drive through the open-source SMTP interface!",
     "Use the back-end HDD matrix, then you can input the neural monitor!"];
 
-async function selectBenchmark(global, querySpec) {
+async function selectBenchmark(global, querySpec, limit) {
+    var totalPages = Math.ceil(limit/querySpec.pageSize);
     var before = Date.now();
     return querySoup(false, selectSoup, querySpec)
-        .then((queryResult) => {
+        .then((cursor) => {
+            for(var i = 0; i < totalPages; i++) {
+                var temp = cursor.currentPageOrderedEntries;
+                smartstore.moveCursorToPageIndex(false, cursor, i, () => {
+                    temp = cursor.currentPageOrderedEntries;
+                })
+            }
+        })
+        .then(() => {
             var after = Date.now();
             var time = (after - before) / 1000;
             return time;
@@ -146,29 +155,22 @@ function createX1Soup(soupName) {
     });
 }
 
-function buildQuery(type, indexPath, beginKey, endKey, exactKey, matchKey, likeKey, order, orderPath, pageSize, selectedPaths, queryLimit) {
+function buildQuery(type, indexPath, beginKey, endKey, exactKey, matchKey, likeKey, order, orderPath, pageSize, selectedPaths) {
     var querySpec;
     switch(type) {
         case 'all':
-            querySpec = smartstore.buildAllQuerySpec(indexPath, order, pageSize, selectedPaths);
-            break;
+            return smartstore.buildAllQuerySpec(indexPath, order, pageSize, selectedPaths);
         case 'exact':
-            querySpec = smartstore.buildExactQuerySpec(indexPath, exactKey, pageSize, order, orderPath, selectedPaths);
-            break;
+            return smartstore.buildExactQuerySpec(indexPath, exactKey, pageSize, order, orderPath, selectedPaths);
         case 'match':
-            querySpec = smartstore.buildMatchQuerySpec(indexPath, matchKey, order, pageSize, orderPath, selectedPaths);
-            break;
+            return smartstore.buildMatchQuerySpec(indexPath, matchKey, order, pageSize, orderPath, selectedPaths);
         case 'range':
-            querySpec = smartstore.buildRangeQuerySpec(indexPath, beginKey, endKey, order, pageSize, orderPath, selectedPaths);
-            break;
+            return querySpec = smartstore.buildRangeQuerySpec(indexPath, beginKey, endKey, order, pageSize, orderPath, selectedPaths);
         case 'like':
-            querySpec = smartstore.buildLikeQuerySpec(indexPath, likeKey, order, pageSize, orderPath, selectedPaths);
-            break;
+            return querySpec = smartstore.buildLikeQuerySpec(indexPath, likeKey, order, pageSize, orderPath, selectedPaths);
     }
-
-    querySpec.limit = queryLimit;
-    return querySpec;
 }
+
 export default {
     createSoups,
     insertBenchmark,
