@@ -25,7 +25,7 @@
  */
 
 import { AppRegistry } from 'react-native';
-import { App } from './app.js';
+import { App } from './js/app.js';
 
 // TODO: Remove this when react native 0.56 is released
 // https://github.com/facebook/react-native/issues/18868

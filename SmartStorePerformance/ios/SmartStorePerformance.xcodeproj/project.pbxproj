@@ -19,6 +19,7 @@
 		84A79B828F3B4F24834898A9 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EE4233860214993B6C8F362 /* MaterialIcons.ttf */; };
 		854F4847C11847F1B9A56C1B /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E67D4064B34F47B292F4821E /* SimpleLineIcons.ttf */; };
 		92424C068F954B67BC943A90 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F74FBE0B96124855AE26E546 /* Ionicons.ttf */; };
+		A358ED0420F016830065B345 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = A358ED0320F016830065B345 /* userstore.json */; };
 		B0027BA877554A8DBB5ADEBE /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 509262D7566944ECB6BED445 /* EvilIcons.ttf */; };
 		B7168FBE1FACC7EB00A48DB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7168FBD1FACC7EB00A48DB5 /* LaunchScreen.storyboard */; };
 		C8CC4B5100854822B5B47E4A /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 33A2074B371149E2950652C3 /* Entypo.ttf */; };
@@ -44,6 +45,7 @@
 		509262D7566944ECB6BED445 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		78A9CFAC4F2F0A1FDF2E7669 /* libPods-SmartStorePerformance.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SmartStorePerformance.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC8E427382C49E8B23C842E /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		A358ED0320F016830065B345 /* userstore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userstore.json; sourceTree = "<group>"; };
 		AE79D28E6E57F5B77FA24716 /* Pods-SmartStorePerformance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartStorePerformance.release.xcconfig"; path = "Pods/Target Support Files/Pods-SmartStorePerformance/Pods-SmartStorePerformance.release.xcconfig"; sourceTree = "<group>"; };
 		B7168FBD1FACC7EB00A48DB5 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "../mobile_sdk/SalesforceMobileSDK-iOS/shared/resources/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		C4E00B066BF642AEA5FFD961 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				2854D6BCCEE64DB9B529D2F9 /* Octicons.ttf */,
 				E67D4064B34F47B292F4821E /* SimpleLineIcons.ttf */,
 				D194456552BE4DDA8FB2EDCF /* Zocial.ttf */,
+				A358ED0320F016830065B345 /* userstore.json */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				84A79B828F3B4F24834898A9 /* MaterialIcons.ttf in Resources */,
 				30D79857220B40BF8E0F8C4A /* Octicons.ttf in Resources */,
 				854F4847C11847F1B9A56C1B /* SimpleLineIcons.ttf in Resources */,
+				A358ED0420F016830065B345 /* userstore.json in Resources */,
 				F587DB12C1024F6599A54A86 /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

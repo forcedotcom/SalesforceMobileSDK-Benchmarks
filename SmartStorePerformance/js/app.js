@@ -85,7 +85,7 @@ class BenchmarkScreen extends React.Component {
             result: "0.00"};
         this.updateOperationIndex = this.updateOperationIndex.bind(this);
         this.udpateAscendingIndex = this.udpateAscendingIndex.bind(this);
-        storeMgr.createSoups();
+        storeMgr.populateSoups();
     }
 
     updateOperationIndex(selectedOperationIndex) {

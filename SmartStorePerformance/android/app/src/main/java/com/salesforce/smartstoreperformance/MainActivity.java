@@ -26,6 +26,7 @@
  */
 package com.salesforce.smartstoreperformance;
 
+import com.salesforce.androidsdk.reactnative.app.SalesforceReactSDKManager;
 import com.salesforce.androidsdk.reactnative.ui.SalesforceReactActivity;
 
 public class MainActivity extends SalesforceReactActivity {

@@ -44,6 +44,8 @@ getAllGlobalStores = forceUtil.promiser(smartstore.getAllGlobalStores);
 removeStore = forceUtil.promiser(smartstore.removeStore);
 removeAllStores = forceUtil.promiser(smartstore.removeAllStores);
 removeAllGlobalStores = forceUtil.promiser(smartstore.removeAllGlobalStores);
+moveCursorToPageIndex = forceUtil.promiser(smartstore.moveCursorToPageIndex);
+traverseCursorP = forceUtil.promiser(traverseCursor);
 
 const selectSoup = "X1_Custom_Perf_Select";
 const insertSoup = "X1_Custom_Perf_Insert";
@@ -56,17 +58,25 @@ const randomData = ["Quinten", "Gayle", "Sheridan", "Albina", "Marianne", "Avon"
     "If we navigate the bandwidth, we can get to the SCSI hard drive through the open-source SMTP interface!",
     "Use the back-end HDD matrix, then you can input the neural monitor!"];
 
+    
+function traverseCursor(accumulatedResults, cursor, totalPages, pageIndex) {
+    accumulatedResults = accumulatedResults.concat(cursor.currentPageOrderedEntries);
+    if (pageIndex < totalPages - 1) {
+        moveCursorToPageIndex(false, cursor, pageIndex + 1).then((cursor) => {
+            traverseCursor(accumulatedResults, cursor, totalPages, pageIndex + 1);
+        });
+    }
+    else {
+        return;
+    }
+}
+    
 async function selectBenchmark(global, querySpec, limit) {
     var totalPages = Math.ceil(limit/querySpec.pageSize);
     var before = Date.now();
     return querySoup(false, selectSoup, querySpec)
         .then((cursor) => {
-            for(var i = 0; i < totalPages; i++) {
-                var temp = cursor.currentPageOrderedEntries;
-                smartstore.moveCursorToPageIndex(false, cursor, i, () => {
-                    temp = cursor.currentPageOrderedEntries;
-                })
-            }
+            traverseCursorP([], cursor, totalPages, 0);
         })
         .then(() => {
             var after = Date.now();
@@ -98,61 +108,33 @@ async function updateBenchmark(fields, rows) {
     // TODO
 }
 
-function createSoups() {
+function populateSoups() {
     soupExists(false, selectSoup)
     .then((exists) => {
-        if(!exists) {
-            createX1Soup(selectSoup);
-            createX1Soup(insertSoup);
-            createX1Soup(updateSoup);
+        if(exists) {
+            getDatabaseSize(true)
+            .then((size) => {
+                console.log("\n\nDB Size: " + size);
+
+                if(size > 0) {
+                    const x1data = require('./X1_Custom_Perf.json').records;
+                    upsertSoupEntries(false, selectSoup, x1data)
+                    .catch((error) => {
+                        console.log("Populating soup '" + selectSoup + "' failed with error: " + error);
+                    });
+
+                    upsertSoupEntries(false, updateSoup, x1data)
+                    .catch((error) => {
+                        console.log("Populating soup '" + updateSoup + "' failed with error: " + error);
+                    });
+                }
+            })
+        }
+        else {
+            console.log("Error: Soups were never created.");
         }
     })
     .catch((error) => { console.log("error checking if soup exists: " + error) });
-}
-
-function createX1Soup(soupName) {
-    registerSoup(false, soupName,
-    [
-        { path:"attributes", type: "json1"},
-        { path:"AccountId__c", type: "string"},
-        { path:"Age__c", type: "string"},
-        { path:"CaseId__c", type: "string"},
-        { path:"Comments__c", type: "string"},
-        { path:"ConnectionReceivedId", type: "string"},
-        { path:"ConnectionSentId", type: "string"},
-        { path:"ContactId__c", type: "string"},
-        { path:"Cost__c", type: "integer"},
-        { path:"CreatedById", type: "string"},
-        { path:"CreatedDate", type: "string"},
-        { path:"CurrencyIsoCode", type: "string"},
-        { path:"Email__c", type: "string"},
-        { path:"Id", type: "string"},
-        { path:"IsDeleted", type: "string"},
-        { path:"IsLocked", type: "string"},
-        { path:"LastModifiedById", type: "string"},
-        { path:"LastModifiedDate", type: "string"},
-        { path:"LastReferencedDate", type: "string"},
-        { path:"LastViewedDate", type: "string"},
-        { path:"LeadId__c", type: "string"},
-        { path:"MayEdit", type: "string"},
-        { path:"Name", type: "string"},
-        { path:"OppId__c", type: "string"},
-        { path:"OwnerId", type: "string"},
-        { path:"Percent__c", type: "floating"},
-        { path:"Phone__c", type: "string"},
-        { path:"SystemModstamp", type: "string"},
-        { path:"Type__c", type: "string"}]
-    )
-    .then(() => {
-        const x1data = require('./X1_Custom_Perf.json').records;
-        upsertSoupEntries(false, soupName, x1data)
-        .catch((error) => {
-            console.log("Populating soup '" + soupName + "' failed with error: " + error);
-        });
-    })
-    .catch((error) => {
-        console.log("Soup creation for '" + soupName + "' failed with error: " + error);
-    });
 }
 
 function buildQuery(type, indexPath, beginKey, endKey, exactKey, matchKey, likeKey, order, orderPath, pageSize, selectedPaths) {
@@ -172,7 +154,7 @@ function buildQuery(type, indexPath, beginKey, endKey, exactKey, matchKey, likeK
 }
 
 export default {
-    createSoups,
+    populateSoups,
     insertBenchmark,
     selectBenchmark,
     updateBenchmark,
